@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from .views import PhotoList, PhotoCreate, PhotoDelete, PhotoDetail, PhotoUpdate
 
@@ -10,3 +12,6 @@ urlpatterns = [  # path(경로, view, url pattern name)
     path('detail/<int:pk>', PhotoDetail.as_view(), name='detail'),
     path('', PhotoList.as_view(), name="index")
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
