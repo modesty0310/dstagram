@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'photo',
     'accounts',
+    'disqus',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 로그인 성공시 접속 링크
 LOGIN_REDIRECT_URL = '/'
+
+# 댓글창 연결 disqus
+DISQUS_WEBSITE_SHORTNAME = 'modesty0310'
+SITE_ID = 1

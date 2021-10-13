@@ -49,6 +49,13 @@ class PhotoDelete(DeleteView):
     template_name_suffix = '_delete'
     success_url = '/'
 
+    def dispatch(self, request, *args, **kwargs):
+        object = self.get_object()
+        if object.author != request.user:
+            messages.warning(request, '삭제할 권한이 없습니다.')
+            return HttpResponseRedirect('/')
+        return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
+
 
 class PhotoDetail(DetailView):
     model = Photo
