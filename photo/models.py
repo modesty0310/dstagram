@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse
+# from django.urls import reverse
+from django.shortcuts import resolve_url
 
 # Create your models here.
 
@@ -21,5 +22,7 @@ class Photo(models.Model):
     class Meta:
         ordering = ['-created']
 
+    # detail 뷰를 만들게 되면 적극적으로 사용하라
     def get_absolute_url(self):
-        return reverse('photo:detail', args=[self.id])
+        # return reverse('photo:detail', args=[self.id])
+        return resolve_url('photo:detail', self.id)

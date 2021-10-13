@@ -3,7 +3,8 @@ from django.conf.urls.static import static
 from django.urls import path
 from .views import PhotoList, PhotoCreate, PhotoDelete, PhotoDetail, PhotoUpdate
 
-app_name = "photo"  # 다른앱들과 urlpatterns가 겹치는것을 방지
+# 다른앱들과 urlpatterns가 겹치는것을 방지 template에서 부를때 app_name:name로 부른다.
+app_name = "photo"
 urlpatterns = [  # path(경로, view, url pattern name)
     # class형 뷰는 as_view()를 붙여야함.
     path('create/', PhotoCreate.as_view(), name='create'),
