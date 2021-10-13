@@ -1,3 +1,5 @@
+from django.http.response import HttpResponseRedirect
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
@@ -29,9 +31,17 @@ class PhotoCreate(CreateView):
 
 class PhotoUpdate(UpdateView):
     model = Photo
-    fields = ['text', 'image']
+    fields = ['author', 'text', 'image']
     template_name_suffix = '_update'
-    success_url = '/'
+    # success_url = '/'
+
+    def dispatch(self, request, *args, **kwargs):
+        object = self.get_object()
+        if object.author != request.user:
+            messages.warning(request, '수정할 권한이 없습니다.')
+            return HttpResponseRedirect('/')
+        else:
+            return super(PhotoUpdate, self).dispatch(request, *args, **kwargs)
 
 
 class PhotoDelete(DeleteView):
