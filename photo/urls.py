@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import PhotoList, PhotoCreate, PhotoDelete, PhotoDetail, PhotoUpdate
+from .views import PhotoList, PhotoCreate, PhotoDelete, PhotoDetail, PhotoUpdate, my_list
 from . import views
 
 # 다른앱들과 urlpatterns가 겹치는것을 방지 template에서 부를때 app_name:name로 부른다.
@@ -17,7 +17,8 @@ urlpatterns = [  # path(경로, view, url pattern name)
     path('detail/<int:pk>/comment_remove/',
          views.comment_remove, name="comment_remove"),
     path('<int:pk>/like/', views.like, name="like"),
-    path('like/', views.like_list, name="like_list")
+    path('like/', views.like_list, name="like_list"),
+    path('mylist/', views.my_list, name="my_list")
 ]
 
 

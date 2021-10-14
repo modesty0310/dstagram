@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div id="mdb-lightbox-ui"></div>
+    <div class="mdb-lightbox no-margin">
+      <div class="row">
+        {% for photo in photos %}
+        {% if photo.author == request.user %}
+        <figure class="col-md-4">
+          <div style="width: 18rem;">
+            <img src="{{photo.image.url}}" alt="" class="card-img-top">
+          </div>
+        </figure>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -100,3 +100,9 @@ def like_list(request):
     user = request.user
     like_post = user.like_photo.all()
     return render(request, 'photo/photo_list.html', {"object_list": like_post})
+
+
+@login_required
+def my_list(request):
+    photo = Photo.objects.all()
+    return render(request, 'photo/photo_mylist.html', {"photos": photo})
