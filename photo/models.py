@@ -26,3 +26,19 @@ class Photo(models.Model):
     def get_absolute_url(self):
         # return reverse('photo:detail', args=[self.id])
         return resolve_url('photo:detail', self.id)
+
+
+class Comment(models.Model):
+    photo = models.ForeignKey(
+        Photo, on_delete=models.CASCADE, related_name='comments')  # Photo 에서 comment를 가져올떄 이름
+    writer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='writer')
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['updated']
+
+    def __str__(self):
+        return self.writer.username + " " + self.created.strftime("%Y-%m-%d %H:%M:%S")

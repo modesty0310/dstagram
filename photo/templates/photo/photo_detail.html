@@ -12,11 +12,17 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">수정일 : {{object.updated}}</li>
         <li class="list-group-item">생성일 : {{object.created}}</li>
+        <li class="list-group-item">댓글</li>
         <li class="list-group-item">
-          {% load disqus_tags %}
+          {% for comment in object.comments.all %}
           <div class="card-body">
-            {% disqus_show_comments %}
+            <div class="card-title">작성자 : {{comment.writer}}</div>
+            <div class="date">{{comment.created}}</div>
+            <br>
+            <div class="card-text">{{comment.text}}</div>
+            <a class="btn btn-default" href="{% url 'photo:comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove">삭제</span></a>
           </div>
+          {% endfor %}
         </li>
       </ul>
     </div>

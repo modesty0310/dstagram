@@ -2,11 +2,11 @@
 {% block content %}
 <div class="row">
   <div class="col"></div>
-  <div class="col col-12 col-xl-8 col-md-8">
+  <div class="col-12 col-xl-8 col-md-8">
     <form action="" method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {{from.as_p}}
-      <input type="submit" value="Create">
+      {{form.as_p}}
+      <input type="submit" value="update">
     </form>
   </div>
   <div class="col"></div>

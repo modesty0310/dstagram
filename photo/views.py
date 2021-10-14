@@ -1,10 +1,10 @@
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
-from django.shortcuts import redirect, render
-from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from django.views.generic.detail import DetailView
-from .models import Photo
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import UpdateView, CreateView, DeleteView, ListView, DetailView
+from django.urls import reverse
+from .models import Photo, Comment
+from .form import CommentForm
 
 # Create your views here.
 
@@ -36,8 +36,8 @@ class PhotoUpdate(UpdateView):
     # success_url = '/'
 
     def dispatch(self, request, *args, **kwargs):
-        object = self.get_object()
-        if object.author != request.user:
+        self.object = self.get_object()
+        if self.object.author != request.user:
             messages.warning(request, '수정할 권한이 없습니다.')
             return HttpResponseRedirect('/')
         else:
@@ -60,3 +60,21 @@ class PhotoDelete(DeleteView):
 class PhotoDetail(DetailView):
     model = Photo
     template_name_suffix = '_detail'
+
+
+def comment_write(request, pk):
+    photo = get_object_or_404(Photo, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.photo = photo
+            comment.save()
+            return redirect('photo:detail', pk=photo.pk)
+
+
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    print(comment)
+    comment.delete()
+    return redirect('photo:detail', pk=comment.photo.pk)
