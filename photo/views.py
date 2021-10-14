@@ -65,12 +65,10 @@ class PhotoDetail(DetailView):
 def comment_write(request, pk):
     photo = get_object_or_404(Photo, pk=pk)
     if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.photo = photo
-            comment.save()
-            return redirect('photo:detail', pk=photo.pk)
+        text = request.POST.get('text')
+        writer = request.user
+        Comment.objects.create(photo=photo, writer=writer, text=text)
+        return redirect('photo:detail', pk=photo.pk)
 
 
 def comment_remove(request, pk):

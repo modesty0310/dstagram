@@ -23,6 +23,11 @@
             <a class="btn btn-default" href="{% url 'photo:comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove">삭제</span></a>
           </div>
           {% endfor %}
+          <form method="POST" action="{% url 'photo:comment_write' pk=object.id %}">
+            {% csrf_token %}
+            <input type="text" placeholder="댓글을 입력해 주세요" name="text">
+            <button type="submit" class="btn btn-secondary">작성</button>
+          </form>
         </li>
       </ul>
     </div>
