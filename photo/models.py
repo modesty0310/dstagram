@@ -13,6 +13,7 @@ class Photo(models.Model):
     image = models.ImageField(upload_to='timeline_photo/%Y/%M/%d')
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
+    like = models.ManyToManyField(User, related_name='like_photo', blank=True)
 
     # admin 화면 표시 구현
     def __str__(self) -> str:

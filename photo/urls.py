@@ -13,9 +13,10 @@ urlpatterns = [  # path(경로, view, url pattern name)
     path('update/<int:pk>/', PhotoUpdate.as_view(), name='update'),
     path('detail/<int:pk>/', PhotoDetail.as_view(), name='detail'),
     path('', PhotoList.as_view(), name="index"),
-    path('detail/<int:pk>/comment', views.comment_write, name="comment_write"),
-    path('detail/<int:pk>/comment_remove',
+    path('detail/<int:pk>/comment/', views.comment_write, name="comment_write"),
+    path('detail/<int:pk>/comment_remove/',
          views.comment_remove, name="comment_remove"),
+    path('<int:pk>/like/', views.like, name="like")
 ]
 
 

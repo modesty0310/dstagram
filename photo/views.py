@@ -2,9 +2,9 @@ from django.http.response import HttpResponseRedirect
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, DetailView
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from urllib.parse import urlparse
 from .models import Photo, Comment
-from .form import CommentForm
 
 # Create your views here.
 
@@ -62,6 +62,7 @@ class PhotoDetail(DetailView):
     template_name_suffix = '_detail'
 
 
+@login_required
 def comment_write(request, pk):
     photo = get_object_or_404(Photo, pk=pk)
     if request.method == "POST":
@@ -71,8 +72,23 @@ def comment_write(request, pk):
         return redirect('photo:detail', pk=photo.pk)
 
 
+@login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
-    print(comment)
-    comment.delete()
-    return redirect('photo:detail', pk=comment.photo.pk)
+    if request.user != comment.writer:
+        messages.warning(request, '삭제할 권한이 없습니다.')
+        return HttpResponseRedirect('/')
+    else:
+        comment.delete()
+        return redirect('photo:detail', pk=comment.photo.pk)
+
+
+def like(request, pk):
+    photo = get_object_or_404(Photo, pk=pk)
+    if request.user in photo.like.all():
+        photo.like.remove(request.user)
+    else:
+        photo.like.add(request.user)
+    referer_url = request.META.get('HTTP_REFERER')
+    path = urlparse(referer_url).path  # 원래 있던 위치로 리다이렉트
+    return HttpResponseRedirect(path)
