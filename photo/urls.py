@@ -16,7 +16,8 @@ urlpatterns = [  # path(경로, view, url pattern name)
     path('detail/<int:pk>/comment/', views.comment_write, name="comment_write"),
     path('detail/<int:pk>/comment_remove/',
          views.comment_remove, name="comment_remove"),
-    path('<int:pk>/like/', views.like, name="like")
+    path('<int:pk>/like/', views.like, name="like"),
+    path('like/', views.like_list, name="like_list")
 ]
 
 

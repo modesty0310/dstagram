@@ -21,7 +21,7 @@
         </ul>
         <div class="card-body">
           {% if user in object.like.all %}
-          <a href="{% url 'photo:like' object.id %}"><i class="far fa-heart"></i></a>
+          <a href="{% url 'photo:like' object.id %}"><i class="far fa-heart" style="color: crimson;"></i></a>
           {% else %}
           <a href="{% url 'photo:like' object.id %}"><i class="far fa-heart"></i></a>
           {% endif %}

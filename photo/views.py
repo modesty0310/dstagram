@@ -1,6 +1,6 @@
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from urllib.parse import urlparse
@@ -83,6 +83,7 @@ def comment_remove(request, pk):
         return redirect('photo:detail', pk=comment.photo.pk)
 
 
+@login_required
 def like(request, pk):
     photo = get_object_or_404(Photo, pk=pk)
     if request.user in photo.like.all():
@@ -92,3 +93,10 @@ def like(request, pk):
     referer_url = request.META.get('HTTP_REFERER')
     path = urlparse(referer_url).path  # 원래 있던 위치로 리다이렉트
     return HttpResponseRedirect(path)
+
+
+@login_required
+def like_list(request):
+    user = request.user
+    like_post = user.like_photo.all()
+    return render(request, 'photo/photo_list.html', {"object_list": like_post})
