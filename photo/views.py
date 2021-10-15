@@ -4,7 +4,11 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from urllib.parse import urlparse
+
+from config.settings import BASE_DIR
 from .models import Photo, Comment
+import os
+from django.conf import settings
 
 # Create your views here.
 
@@ -54,6 +58,8 @@ class PhotoDelete(DeleteView):
         if object.author != request.user:
             messages.warning(request, '삭제할 권한이 없습니다.')
             return HttpResponseRedirect('/')
+        file_path = os.path.join(settings.BASE_DIR, object.image.url)
+        os.remove(file_path)
         return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
 
 
