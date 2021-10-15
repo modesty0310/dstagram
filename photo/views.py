@@ -58,9 +58,12 @@ class PhotoDelete(DeleteView):
         if object.author != request.user:
             messages.warning(request, '삭제할 권한이 없습니다.')
             return HttpResponseRedirect('/')
-        file_path = os.path.join(settings.BASE_DIR, object.image.path)
-        print(file_path)
-        os.remove(file_path)
+        # 이럴거면 dispatch를 왜쓰는지 이유를 모르겠다...
+        if request.method == "POST":
+            file_path = os.path.join(settings.BASE_DIR, object.image.path)
+            # 왜 object.image.url이 아닌 object.image.path로 구동이 되는가?
+            print(file_path)
+            os.remove(file_path)
         return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
 
 

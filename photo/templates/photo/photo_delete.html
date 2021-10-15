@@ -3,9 +3,12 @@
 <div class="alert alert-primary" role="alert">
   진짜로 지우실 건가요?
 </div>
-<form action="" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <input type="submit" value="Delete OK">
-</form>
+<div class="row">
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="submit" value="Delete OK" class="btn btn-primary">
+  </form>
+  <a href="/" class="btn btn-primary">Cancle</a>
+</div>
 {% endblock %}
 
