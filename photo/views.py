@@ -58,7 +58,8 @@ class PhotoDelete(DeleteView):
         if object.author != request.user:
             messages.warning(request, '삭제할 권한이 없습니다.')
             return HttpResponseRedirect('/')
-        file_path = os.path.join(settings.BASE_DIR, object.image.url)
+        file_path = os.path.join(settings.BASE_DIR, object.image.path)
+        print(file_path)
         os.remove(file_path)
         return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
 
